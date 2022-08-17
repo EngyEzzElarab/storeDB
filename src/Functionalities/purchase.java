@@ -14,7 +14,7 @@ public class purchase {
 						ResultSet res = st2.executeQuery("SELECT SUM(Quantity) FROM  ItemStoreRelation  WHERE ItemID="+itemID+";");
 						res.next();
 						String foundType = res.getString(1);
-						int total = Integer.parseInt(foundType);
+						int total = Integer.parseInt(foundType);  
 						int remainingAmount = amount;
 						if(total<amount)
 							System.out.println("Unfortunately,The amount you need is not available now in all stores");

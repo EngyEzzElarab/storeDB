@@ -9,11 +9,12 @@ import java.sql.Statement;
 public class multipurchase {
 	
 						public static int getActualQuantityOfItem(Connection conn,int itemID) throws SQLException {
-							String query = "SELECT SUM(Amount) as sum FROM Transactions GROUP BY ItemID HAVING ItemID="+itemID+";";
+							String query = "SELECT SUM(Quantity) FROM ItemStoreRelation GROUP BY ItemID HAVING ItemID="+itemID+";";
 							Statement st = conn.createStatement();
 							 ResultSet result = st.executeQuery(query);
 							 result.next();
 							 String amount = result.getString(1);
+							 System.out.println("ACTUAL QUANTITY OF ITEM "+amount);
 							return Integer.parseInt(amount);
 						}
 					
@@ -51,7 +52,8 @@ public class multipurchase {
 						int actuaQuantity = getActualQuantityOfItem(conn,itemID);
 						System.out.println(requiredQuantity);
 						System.out.println(actuaQuantity);
-						addQuantity.addQuantityToStore(conn, itemID, 1, requiredQuantity-actuaQuantity);
+						if(requiredQuantity>actuaQuantity)
+								addQuantity.addQuantityToStore(conn, itemID, 1, requiredQuantity-actuaQuantity);
 						// make purchase requiredQuantity times
 						for(int i=0;i<numOfCustomers;i++)
 						{
